@@ -1,10 +1,18 @@
 {
     "scripts": {
         "start": "ts-node src/app.ts",
-        "dev": "ts-node-dev src/app.ts"
+        "dev": "ts-node-dev src/app.ts",
+        "db:create": "ts-node scripts/db-create.ts",
+        "db:migrate": "ts-node scripts/db-migrate.ts",
+        "db:seed": "ts-node scripts/db-seed.ts",
+        "db:setup": "npm run db:create && npm run db:migrate && npm run db:seed"
     },
     "dependencies": {
+        "@sinclair/typebox": "^0.33.17",
         "fastify": "^5.0.0",
+        "fastify-plugin": "^5.0.1",
+        "knex": "^3.1.0",
+        "mysql2": "^3.11.3",
         "ts-node": "^10.9.2"
     },
     "devDependencies": {
