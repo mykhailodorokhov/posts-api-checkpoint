@@ -11,6 +11,7 @@ export async function up(knex: Knex) {
     table.increments("id").primary();
     table.text("text").notNullable();
     table.text("hashtags").nullable().defaultTo(null);
+    table.integer("likes").notNullable();
     table
       .integer("user_id")
       .index()

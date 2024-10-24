@@ -25,8 +25,8 @@ interface PostQueryResult {
   likes: number;
   hashtags?: string;
   user_id: number;
-  username: string;
-  bio: string;
+  user_username: string;
+  user_bio: string;
 }
 
 const formatPostDTO = (queryResult: PostQueryResult): PostDTO => {
@@ -37,8 +37,8 @@ const formatPostDTO = (queryResult: PostQueryResult): PostDTO => {
     hashtags: queryResult.hashtags,
     user: {
       id: queryResult.user_id,
-      username: queryResult.username,
-      bio: queryResult.bio,
+      username: queryResult.user_username,
+      bio: queryResult.user_bio,
     },
   };
 };
@@ -66,7 +66,15 @@ export async function getPosts(
   const queryResult = fastify.tars
     .from(TABLE_NAME)
     .innerJoin("users", "users.id", "posts.user_id")
-    .select();
+    .select(
+      "posts.id as id",
+      "posts.text as text",
+      "posts.likes as likes",
+      "posts.hashtags as hashtags",
+      "users.id as user_id",
+      "users.username as user_username",
+      "users.bio as user_bio"
+    );
 
   if (query.text) queryResult.whereLike("posts.text", `%${query.text}%`);
   if (query.tag) queryResult.whereLike("posts.hashtags", `%${query.tag}%`);
